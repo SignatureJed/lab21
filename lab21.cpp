@@ -1,5 +1,7 @@
+#define _USE_MATH_DEFINES 
 #include<iostream>
 #include<cmath>
+
 using namespace std;
 
 class ComplexNumber{				
@@ -29,7 +31,68 @@ ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 }
 
 //Write your code here
+ComplexNumber operator+(double j , ComplexNumber &c)
+{
+	return ComplexNumber(j+c.real,0+c.imag);
+}
+ComplexNumber operator-(double j , ComplexNumber &c)
+{
+	return ComplexNumber(j-c.real,0-c.imag);
+}
+ComplexNumber ComplexNumber :: operator*(const ComplexNumber &c)
+{
+	return ComplexNumber(real*c.real-(imag*c.imag),(real*c.imag)+(imag*c.real));
+}
+ComplexNumber ComplexNumber :: operator/(const ComplexNumber &c)
+{
+	return ComplexNumber((real*c.real+(imag*c.imag))/(pow(c.real,2)+pow(c.imag,2)),((imag*c.real)-(real*c.imag))/(pow(c.real,2)+pow(c.imag,2)));
+}
 
+ComplexNumber operator*(double j , const ComplexNumber &c)
+{
+	return ComplexNumber(j*c.real,j*c.imag);
+}
+ComplexNumber operator/(double j , const ComplexNumber &c)
+{
+	return ComplexNumber(j*c.real/(pow(c.real,2)+pow(c.imag,2)),-j*c.imag/(pow(c.real,2)+pow(c.imag,2)));
+}
+ostream & operator<<(ostream &os, const ComplexNumber &c)
+{
+	if (c.imag>0)
+	{	
+		if (c.real==0)  return os << c.imag << "i";
+		return os << c.real << "+" << c.imag << "i";
+				
+	}
+	else
+	{
+		if (c.imag==0) return os << c.real;
+		if (c.real==0) return os << c.imag <<"i";	
+		else return os << c.real << c.imag << "i";
+	}
+}
+double ComplexNumber::abs(){
+	return sqrt(pow(real,2)+pow(imag,2));
+}
+double ComplexNumber ::angle(){
+	return atan2(imag,real) * 180 / M_PI;
+}
+bool ComplexNumber :: operator==(const ComplexNumber &c)
+{
+	if (real==c.real && imag == c.imag)
+	{
+		return true;
+	}else return false;
+}
+
+ComplexNumber operator==(double j , const ComplexNumber &c)
+{
+	if (j==c.real && j ==c.imag)
+	{
+		return true;
+	}else return false;
+	
+}
 int main(){
 	ComplexNumber a(1.5,2),b(3.2,-2.5),c(-1,1.2);	
 	cout << a << "\n";
